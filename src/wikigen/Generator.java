@@ -31,7 +31,7 @@ public class Generator{
         Core.audio = new MockAudio();
         Core.graphics = new MockGraphics();
         Core.input = new MockInput();
-
+        Core.settings.put("locale","zh_CN");
         //generate locale file manually
         if(!Core.files.local("locales").exists()){
             Core.files.local("locales").writeString("en");
