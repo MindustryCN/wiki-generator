@@ -13,6 +13,7 @@ import com.github.javaparser.ast.body.*;
 import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.entities.*;
+import mindustry.entities.abilities.*;
 import mindustry.gen.*;
 import mindustry.net.*;
 import mindustry.server.*;
@@ -79,6 +80,7 @@ public class VarGenerator{
         var out = new StringBuilder();
         var allClasses = fetchTypes("mindustry", MappableContent.class);
         allClasses.addAll(fetchTypes("mindustry.entities.effect", Effect.class));
+        allClasses.addAll(fetchTypes("mindustry.entities.abilities", Ability.class));
         allClasses.add(Weapon.class);
 
         var parser = new JavaParser();
@@ -115,7 +117,8 @@ public class VarGenerator{
                 instance = cons.newInstance("__typeof" + c.getSimpleName());
             }catch(Exception ignored){
                 try{
-                    cons = c.getConstructor();
+                    cons = c.getDeclaredConstructor();
+                    cons.setAccessible(true);
                     instance = cons.newInstance();
                 }catch(Exception ignored2){
                     continue;
